@@ -122,4 +122,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* ✅ Smooth Scrolling Enabled */
+  html {
+    scroll-behavior: smooth;
+  }
 }
