@@ -114,14 +114,18 @@ export default function HomePage() {
           </section>
         </VideoSection>
 
-        <VideoSection videoUrl="https://stream.mux.com/YXF46g02XKwxe7QQNNfNcAfzC7udbxLfN/high.mp4" overlayOpacity={0.9}>
+        <VideoSection 
+        // videoUrl="https://stream.mux.com/YXF46g02XKwxe7QQNNfNcAfzC7udbxLfN/high.mp4" 
+        videoUrl="/videos/v02.mp4" 
+        overlayOpacity={0.9}>
           <section id="stats">
             <AnimatedStats />
           </section>
         </VideoSection>
 
         <VideoSection
-          videoUrl="https://stream.mux.com/6E1ru5UoZfWYnFBffKxu1PpckbMd00aoQ/high.mp4"
+          // videoUrl="https://stream.mux.com/6E1ru5UoZfWYnFBffKxu1PpckbMd00aoQ/high.mp4"
+          videoUrl="/videos/v01.mp4"
           overlayOpacity={0.85}
         >
           <section id="features">
@@ -130,7 +134,8 @@ export default function HomePage() {
         </VideoSection>
 
         <VideoSection
-          videoUrl="https://stream.mux.com/ITppDOn00woiNWvh00eWy5jr9eaKyuqO6x/high.mp4"
+          // videoUrl="https://stream.mux.com/ITppDOn00woiNWvh00eWy5jr9eaKyuqO6x/high.mp4"
+          videoUrl="/videos/v03.mp4"
           overlayOpacity={0.9}
         >
           <section id="analytics">
@@ -139,7 +144,8 @@ export default function HomePage() {
         </VideoSection>
 
         <VideoSection
-          videoUrl="https://stream.mux.com/DKRFWE7xYaff00cKqX81EK6GIqGPNVdfH/high.mp4"
+          // videoUrl="https://stream.mux.com/DKRFWE7xYaff00cKqX81EK6GIqGPNVdfH/high.mp4"
+          videoUrl="/videos/v04.mp4"
           className="py-40"
           overlayOpacity={0.85}
         >
@@ -186,7 +192,8 @@ export default function HomePage() {
         </VideoSection>
 
         <VideoSection
-          videoUrl="https://stream.mux.com/f02D5glc65LPWnibAAEYRE8QvatTZalmt/high.mp4"
+          // videoUrl="https://stream.mux.com/f02D5glc65LPWnibAAEYRE8QvatTZalmt/high.mp4"
+          videoUrl="/videos/v05.mp4"
           overlayOpacity={0.95}
         >
           <footer className="border-t border-white/5">
