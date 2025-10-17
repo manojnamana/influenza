@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Search, BarChart3, Users, Zap, Shield, Globe } from "lucide-react"
 import { GlassCard } from "@/components/glass-card"
+import { Box, Container, Typography, Stack } from "@mui/material"
 
 const features = [
   {
@@ -48,55 +49,135 @@ export function AnimatedFeatures() {
   const isInView = useInView(containerRef, { once: true, margin: "-100px" })
 
   return (
-    <section className="container mx-auto px-4 lg:px-8 py-32 lg:py-40">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center space-y-6 mb-20"
-      >
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance leading-tight">
-          Everything you need to run
-          <br />
-          <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-            successful campaigns
-          </span>
-        </h2>
-        <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          Powerful tools and insights to help you find, analyze, and collaborate with the perfect influencers
-        </p>
-      </motion.div>
+    <Box component="section">
+      <Container maxWidth="xl" sx={{ py: { xs: 8, lg: 10 } }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <Box sx={{ textAlign: 'center', mb: 5 }}>
+            <Typography
+              variant="h2"
+              sx={{
+                fontSize: { xs: '2.5rem', md: '3rem', lg: '3.75rem' },
+                fontWeight: 700,
+                lineHeight: 1.1,
+                mb: 3
+              }}
+            >
+              Everything you need to run
+              <br />
+              <Box
+                component="span"
+                sx={{
+                  background: 'linear-gradient(135deg, #a855f7 0%, #10b981 50%, #a855f7 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                successful campaigns
+              </Box>
+            </Typography>
+            <Typography
+              variant="h4"
+              sx={{
+                fontSize: { xs: '1.25rem', md: '1.5rem' },
+                color: 'rgba(255, 255, 255, 0.7)',
+                maxWidth: '3xl',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Powerful tools and insights to help you find, analyze, and collaborate with the perfect influencers
+            </Typography>
+          </Box>
+        </motion.div>
 
-      <div ref={containerRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map((feature, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{
-              duration: 0.5,
-              delay: i * 0.1,
-              ease: [0.21, 0.47, 0.32, 0.98],
-            }}
-          >
-            <GlassCard className="p-8 h-full group">
-              <div className="space-y-6">
-                <motion.div
-                  className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center relative overflow-hidden"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <feature.icon className="h-7 w-7 text-primary relative z-10 group-hover:scale-110 transition-transform" />
-                </motion.div>
-                <h3 className="text-2xl font-bold">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed text-lg">{feature.description}</p>
-              </div>
-            </GlassCard>
-          </motion.div>
-        ))}
-      </div>
-    </section>
+        <Box 
+          ref={containerRef} 
+          sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, 
+            gap: 4 
+          }}
+        >
+          {features.map((feature, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{
+                duration: 0.5,
+                delay: i * 0.1,
+                ease: [0.21, 0.47, 0.32, 0.98],
+              }}
+            >
+              <GlassCard sx={{ p: 4, height: '100%' }}>
+                <Stack spacing={3}>
+                  <motion.div
+                    style={{
+                      height: 56,
+                      width: 56,
+                      borderRadius: 16,
+                      background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      cursor: 'pointer'
+                    }}
+                    whileHover={{ 
+                      scale: 1.1, 
+                      rotate: 5,
+                      boxShadow: '0 8px 25px rgba(168, 85, 247, 0.3)'
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <motion.div
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.4) 0%, transparent 100%)',
+                        opacity: 0
+                      }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    <motion.div
+                      style={{ 
+                        height: 28, 
+                        width: 28, 
+                        color: '#a855f7', 
+                        position: 'relative', 
+                        zIndex: 10 
+                      }}
+                      whileHover={{ scale: 1.1, rotate: 10 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <feature.icon style={{ height: '100%', width: '100%' }} />
+                    </motion.div>
+                  </motion.div>
+                  <Typography variant="h4" sx={{ fontWeight: 700, fontSize: '1.5rem' }}>
+                    {feature.title}
+                  </Typography>
+                  <Typography sx={{ 
+                    color: 'rgba(255, 255, 255, 0.7)', 
+                    lineHeight: 1.6, 
+                    fontSize: '1.125rem' 
+                  }}>
+                    {feature.description}
+                  </Typography>
+                </Stack>
+              </GlassCard>
+            </motion.div>
+          ))}
+        </Box>
+      </Container>
+    </Box>
   )
 }

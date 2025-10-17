@@ -4,11 +4,13 @@ import type React from "react"
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
+import { Box, SxProps, Theme } from "@mui/material"
 
 interface VideoSectionProps {
   videoUrl: string
   children: React.ReactNode
   className?: string
+  sx?: SxProps<Theme>
   overlayOpacity?: number
   blurAmount?: number
 }
@@ -17,6 +19,7 @@ export function VideoSection({
   videoUrl,
   children,
   className = "",
+  sx,
   overlayOpacity = 0.7,
   blurAmount = 0,
 }: VideoSectionProps) {
@@ -60,37 +63,66 @@ export function VideoSection({
   }, [isInView])
 
   return (
-    <div ref={sectionRef} className={`relative overflow-hidden ${className}`}>
+    <Box 
+      ref={sectionRef} 
+      className={`relative overflow-hidden ${className}`}
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        ...sx
+      }}
+    >
       {/* Video Background */}
-      <motion.div className="absolute inset-0 z-0" style={{ opacity, scale }}>
+      <motion.div 
+        style={{ 
+          position: 'absolute', 
+          inset: 0, 
+          zIndex: 0, 
+          opacity, 
+          scale 
+        }}
+      >
         <video
           ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            filter: `blur(${blurAmount}px)`
+          }}
           loop
           muted
           playsInline
-          style={{ filter: `blur(${blurAmount}px)` }}
+          autoPlay
         >
           <source src={videoUrl} type="video/mp4" />
         </video>
 
         {/* Gradient Overlay */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-black/90"
-          style={{ opacity: overlayOpacity }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%)',
+            opacity: overlayOpacity
+          }}
         />
 
         {/* Noise Texture */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
           style={{
+            position: 'absolute',
+            inset: 0,
+            opacity: 0.03,
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
           }}
         />
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10">{children}</div>
-    </div>
+      <div style={{ position: 'relative', zIndex: 10 }}>{children}</div>
+    </Box>
   )
 }

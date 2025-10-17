@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { TrendingUp, ArrowRight } from "lucide-react"
 import { GlassCard } from "@/components/glass-card"
+import { Box, Container, Typography, Stack } from "@mui/material"
 
 export function ParallaxSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -19,14 +20,26 @@ export function ParallaxSection() {
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8])
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden py-32 lg:py-40">
+    <Box 
+      ref={sectionRef} 
+      component="section"
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        py: { xs: 8, lg: 10 }
+      }}
+    >
       <motion.div
-        className="absolute inset-0 opacity-20"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.2
+        }}
         animate={{
           background: [
-            "radial-gradient(circle at 0% 0%, oklch(0.85 0.15 280 / 0.3) 0%, transparent 50%)",
-            "radial-gradient(circle at 100% 100%, oklch(0.75 0.2 150 / 0.3) 0%, transparent 50%)",
-            "radial-gradient(circle at 0% 0%, oklch(0.85 0.15 280 / 0.3) 0%, transparent 50%)",
+            "radial-gradient(circle at 0% 0%, rgba(168, 85, 247, 0.3) 0%, transparent 50%)",
+            "radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.3) 0%, transparent 50%)",
+            "radial-gradient(circle at 0% 0%, rgba(168, 85, 247, 0.3) 0%, transparent 50%)",
           ],
         }}
         transition={{
@@ -36,54 +49,138 @@ export function ParallaxSection() {
         }}
       />
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          <motion.div style={{ opacity }} className="space-y-8">
-            <Badge variant="secondary" className="text-sm px-4 py-1.5 rounded-full">
-              For Brands
-            </Badge>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance leading-tight">
-              Find the perfect influencers for your{" "}
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">brand</span>
-            </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-              Use our advanced filters to discover influencers that match your target audience, budget, and campaign
-              goals.
-            </p>
-            <ul className="space-y-4">
-              {[
-                "Filter by platform, followers, engagement rate, and location",
-                "View detailed analytics and audience insights",
-                "Track influencer partnerships and campaign performance",
-                "Secure payments and contract management",
-              ].map((item, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex items-start gap-4"
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: { xs: '1fr', lg: 'repeat(2, 1fr)' }, 
+          gap: { xs: 4, lg: 6 }, 
+          alignItems: 'center' 
+        }}>
+          <motion.div style={{ opacity }}>
+            <Stack spacing={4}>
+              <Badge 
+                variant="secondary" 
+                sx={{ 
+                  fontSize: '0.875rem', 
+                  px: 2, 
+                  py: 0.75, 
+                  borderRadius: '50px',
+                  alignSelf: 'flex-start'
+                }}
+              >
+                For Brands
+              </Badge>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontSize: { xs: '2.5rem', md: '3rem', lg: '3.75rem' },
+                  fontWeight: 700,
+                  lineHeight: 1.1
+                }}
+              >
+                Find the perfect influencers for your{" "}
+                <Box
+                  component="span"
+                  sx={{
+                    background: 'linear-gradient(135deg, #a855f7 0%, #10b981 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
                 >
-                  <div className="h-7 w-7 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0 mt-1">
-                    <div className="h-2.5 w-2.5 rounded-full bg-primary" />
-                  </div>
-                  <span className="text-muted-foreground text-lg">{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-            <Button
-              size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 rounded-full group mt-4"
-            >
-              Explore Discovery Tools
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+                  brand
+                </Box>
+              </Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontSize: { xs: '1.25rem', md: '1.5rem' },
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: 1.6
+                }}
+              >
+                Use our advanced filters to discover influencers that match your target audience, budget, and campaign
+                goals.
+              </Typography>
+              <Stack spacing={2}>
+                {[
+                  "Filter by platform, followers, engagement rate, and location",
+                  "View detailed analytics and audience insights",
+                  "Track influencer partnerships and campaign performance",
+                  "Secure payments and contract management",
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                  >
+                    <Stack direction="row" spacing={2} alignItems="flex-start">
+                      <Box
+                        sx={{
+                          height: 28,
+                          width: 28,
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          mt: 0.5
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: 10,
+                            width: 10,
+                            borderRadius: '50%',
+                            backgroundColor: '#a855f7'
+                          }}
+                        />
+                      </Box>
+                      <Typography sx={{ 
+                        color: 'rgba(255, 255, 255, 0.7)', 
+                        fontSize: '1.125rem' 
+                      }}>
+                        {item}
+                      </Typography>
+                    </Stack>
+                  </motion.div>
+                ))}
+              </Stack>
+              <Button
+                size="lg"
+                sx={{
+                  fontSize: '1.125rem',
+                  px: 4,
+                  py: 3,
+                  borderRadius: '50px',
+                  background: 'linear-gradient(135deg, #a855f7 0%, #10b981 100%)',
+                  alignSelf: 'flex-start',
+                  mt: 2
+                }}
+              >
+                Explore Discovery Tools
+                <ArrowRight style={{ marginLeft: 8, height: 20, width: 20 }} />
+              </Button>
+            </Stack>
           </motion.div>
 
           <motion.div style={{ y, scale }}>
-            <GlassCard className="p-12 relative overflow-hidden">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-background/50 to-background/20 flex items-center justify-center relative overflow-hidden">
+            <GlassCard sx={{ p: 6, position: 'relative', overflow: 'hidden' }}>
+              <Box
+                sx={{
+                  aspectRatio: '1/1',
+                  borderRadius: 2,
+                  background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
                 <motion.div
                   animate={{
                     scale: [1, 1.2, 1],
@@ -94,22 +191,33 @@ export function ParallaxSection() {
                     repeat: Number.POSITIVE_INFINITY,
                     ease: "linear",
                   }}
-                  className="absolute inset-0 opacity-10"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    opacity: 0.1
+                  }}
                 >
-                  <TrendingUp className="h-full w-full text-primary" />
+                  <TrendingUp style={{ height: '100%', width: '100%', color: '#a855f7' }} />
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  className="relative z-10 p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 backdrop-blur-sm"
+                  style={{
+                    position: 'relative',
+                    zIndex: 10,
+                    padding: 32,
+                    borderRadius: 16,
+                    background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
+                    backdropFilter: 'blur(10px)'
+                  }}
                 >
-                  <TrendingUp className="h-32 w-32 text-primary" />
+                  <TrendingUp style={{ height: 128, width: 128, color: '#a855f7' }} />
                 </motion.div>
-              </div>
+              </Box>
             </GlassCard>
           </motion.div>
-        </div>
-      </div>
-    </section>
+        </Box>
+      </Container>
+    </Box>
   )
 }

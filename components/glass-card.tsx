@@ -1,30 +1,51 @@
 "use client"
 
 import type React from "react"
-
 import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { Card, CardProps } from "@mui/material"
+import { styled } from "@mui/material/styles"
 
-interface GlassCardProps {
+const StyledCard = styled(Card)(({ theme }) => ({
+  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  backdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: 16,
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+  position: 'relative',
+  overflow: 'hidden',
+  transition: 'all 0.3s ease',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, transparent 100%)',
+    opacity: 0,
+    transition: 'opacity 0.3s ease',
+    zIndex: 1,
+  },
+  '&:hover': {
+    transform: 'translateY(-5px) scale(1.02)',
+    boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)',
+    '&::before': {
+      opacity: 1,
+    },
+  },
+}))
+
+interface GlassCardProps extends CardProps {
   children: React.ReactNode
-  className?: string
   hover?: boolean
 }
 
-export function GlassCard({ children, className, hover = true }: GlassCardProps) {
+export function GlassCard({ children, hover = true, ...props }: GlassCardProps) {
   return (
     <motion.div
       whileHover={hover ? { scale: 1.02, y: -5 } : {}}
       transition={{ duration: 0.3 }}
-      className={cn(
-        "relative overflow-hidden rounded-2xl",
-        "bg-card/40 backdrop-blur-xl border border-border/50",
-        "shadow-2xl shadow-primary/5",
-        "before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity",
-        className,
-      )}
     >
-      {children}
+      <StyledCard {...props}>
+        {children}
+      </StyledCard>
     </motion.div>
   )
 }

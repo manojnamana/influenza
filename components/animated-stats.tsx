@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { motion } from "framer-motion"
+import { Box, Container, Typography } from "@mui/material"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -53,10 +54,30 @@ export function AnimatedStats() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative border-y border-border/50 backdrop-blur-xl overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
-      <div className="container mx-auto px-4 lg:px-8 py-24 relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+    <Box 
+      ref={sectionRef} 
+      component="section"
+      sx={{
+        position: 'relative',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(20px)',
+        overflow: 'hidden'
+      }}
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(90deg, rgba(168, 85, 247, 0.05) 0%, transparent 50%, rgba(16, 185, 129, 0.05) 100%)'
+        }}
+      />
+      <Container maxWidth="xl" sx={{ py: 6, position: 'relative', zIndex: 10 }}>
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, 
+          gap: { xs: 3, lg: 4 } 
+        }}>
           {stats.map((stat, i) => (
             <motion.div
               key={i}
@@ -67,16 +88,48 @@ export function AnimatedStats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="text-center space-y-3 group"
             >
-              <div className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-br from-primary via-accent to-primary bg-clip-text text-transparent stat-value group-hover:scale-110 transition-transform">
-                0{stat.suffix}
-              </div>
-              <div className="text-base md:text-lg text-muted-foreground font-medium">{stat.label}</div>
+              <Box sx={{ 
+                textAlign: 'center', 
+                '&:hover': { 
+                  transform: 'scale(1.05)',
+                  '& .stat-value': {
+                    background: 'linear-gradient(135deg, #a855f7 0%, #10b981 50%, #a855f7 100%)',
+                    backgroundSize: '200% 100%',
+                    animation: 'gradient-xy 2s ease infinite',
+                  }
+                }, 
+                transition: 'transform 0.3s ease' 
+              }}>
+                <Typography
+                  className="stat-value"
+                  sx={{
+                    fontSize: { xs: '3rem', md: '3.75rem', lg: '4.5rem' },
+                    fontWeight: 700,
+                    background: 'linear-gradient(135deg, #a855f7 0%, #10b981 50%, #a855f7 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    mb: 1,
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  0{stat.suffix}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: { xs: '1rem', md: '1.125rem' },
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontWeight: 500
+                  }}
+                >
+                  {stat.label}
+                </Typography>
+              </Box>
             </motion.div>
           ))}
-        </div>
-      </div>
-    </section>
+        </Box>
+      </Container>
+    </Box>
   )
 }

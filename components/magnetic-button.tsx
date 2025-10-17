@@ -1,19 +1,25 @@
 "use client"
 
 import type React from "react"
-
 import { useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { Box } from "@mui/material"
 
 interface MagneticButtonProps {
   children: React.ReactNode
-  className?: string
   variant?: "default" | "outline" | "ghost"
   size?: "default" | "sm" | "lg"
+  sx?: any
 }
 
-export function MagneticButton({ children, className, variant = "default", size = "default" }: MagneticButtonProps) {
+export function MagneticButton({ 
+  children, 
+  variant = "default", 
+  size = "default",
+  sx,
+  ...props 
+}: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
@@ -36,9 +42,11 @@ export function MagneticButton({ children, className, variant = "default", size 
       onMouseLeave={reset}
       animate={{ x: position.x * 0.3, y: position.y * 0.3 }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className="inline-block"
+      style={{ display: 'inline-block' }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
-      <Button variant={variant} size={size} className={className}>
+      <Button variant={variant} size={size} sx={sx} {...props}>
         {children}
       </Button>
     </motion.div>
