@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
+import { useCursorVideo } from "./cursor-video-provider"
 
 interface VideoSectionProps {
   videoUrl: string
@@ -11,6 +12,7 @@ interface VideoSectionProps {
   className?: string
   overlayOpacity?: number
   blurAmount?: number
+  sectionId?: string
 }
 
 export function VideoSection({
@@ -19,10 +21,12 @@ export function VideoSection({
   className = "",
   overlayOpacity = 0.7,
   blurAmount = 0,
+  sectionId,
 }: VideoSectionProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
   const [isInView, setIsInView] = useState(false)
+  const { activeSection, registerSection, unregisterSection } = useCursorVideo()
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -31,6 +35,14 @@ export function VideoSection({
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [1.2, 1, 1, 1.2])
+
+  // Register section for cursor tracking
+  useEffect(() => {
+    if (sectionRef.current && sectionId) {
+      registerSection(sectionId, sectionRef.current)
+      return () => unregisterSection(sectionId)
+    }
+  }, [sectionId, registerSection, unregisterSection])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -47,9 +59,12 @@ export function VideoSection({
     return () => observer.disconnect()
   }, [])
 
+  // Play video only when cursor is in this section AND section is in view
   useEffect(() => {
-    if (videoRef.current) {
-      if (isInView) {
+    if (videoRef.current && sectionId) {
+      const shouldPlay = isInView && activeSection === sectionId
+      
+      if (shouldPlay) {
         videoRef.current.play().catch(() => {
           // Autoplay failed, user interaction required
         })
@@ -57,7 +72,7 @@ export function VideoSection({
         videoRef.current.pause()
       }
     }
-  }, [isInView])
+  }, [isInView, activeSection, sectionId])
 
   return (
     <div ref={sectionRef} className={`relative overflow-hidden ${className}`}>
