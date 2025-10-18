@@ -54,10 +54,10 @@ export function CinematicNavbar() {
 
   return (
     <>
-      <motion.nav className="fixed top-0 left-0 right-0 z-50">
+      <motion.nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
         {/* Video Background for Navbar */}
-        <div className="absolute inset-0 overflow-hidden">
-          <video className="absolute inset-0 w-full h-full object-cover opacity-20" autoPlay loop muted playsInline>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <video className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" autoPlay loop muted playsInline>
             <source src="https://stream.mux.com/WAl7GG5G5q1fu7YpfhLJGqp7X98jbmiu/high.mp4" type="video/mp4" />
           </video>
         </div>
@@ -68,13 +68,13 @@ export function CinematicNavbar() {
             backdropFilter: `blur(${navBlur.get()}px)`,
             opacity: navOpacity,
           }}
-          className="absolute inset-0 bg-gradient-to-b from-black/95 via-black/80 to-transparent border-b border-white/5"
+          className="absolute inset-0 bg-gradient-to-b from-black/95 via-black/80 to-transparent border-b border-white/5 pointer-events-none"
         />
 
-        <div className="container mx-auto px-4 lg:px-8 relative">
+        <div className="container mx-auto px-4 lg:px-8 relative pointer-events-auto">
           <div className="flex h-28 items-center justify-between">
             {/* Logo with Text Blur Effect */}
-            <Link href="/" className="flex items-center gap-4 group relative z-10">
+            <Link href="/" className="flex items-center gap-4 group relative z-10 pointer-events-auto">
               <motion.div
                 style={{ scale: logoScale }}
                 whileHover={{ scale: 1.15, rotate: 360 }}
@@ -118,7 +118,7 @@ export function CinematicNavbar() {
             </Link>
 
             {/* Nav Items with Blur Effects */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1 pointer-events-auto">
               {navItems.map((item, i) => (
                 <motion.div
                   key={item.name}
@@ -164,7 +164,7 @@ export function CinematicNavbar() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="hidden lg:flex items-center gap-6 relative z-10">
+            <div className="hidden lg:flex items-center gap-6 relative z-10 pointer-events-auto">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 animate={{
@@ -194,7 +194,7 @@ export function CinematicNavbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden relative z-10 p-2 text-white"
+              className="lg:hidden relative z-10 p-2 text-white pointer-events-auto"
             >
               {mobileMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
             </button>
@@ -208,7 +208,7 @@ export function CinematicNavbar() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="fixed inset-0 z-40 lg:hidden bg-black/95 backdrop-blur-2xl pt-32"
+          className="fixed inset-0 z-40 lg:hidden bg-black/95 backdrop-blur-2xl pt-32 pointer-events-auto"
         >
           <div className="container mx-auto px-4 space-y-6">
             {navItems.map((item, i) => (

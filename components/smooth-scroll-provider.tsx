@@ -9,7 +9,7 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
   const rafIdRef = useRef<number | null>(null)
 
   useEffect(() => {
-    console.log('🚀 Initializing Lenis smooth scroll...')
+    console.log('🚀 Initializing Lenis smooth scroll (Mosaic.com style)...')
     
     const lenis = new Lenis({
       duration: 1.5,
@@ -17,11 +17,11 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.85, // Controlled scroll speed (Mosaic style)
+      touchMultiplier: 1.8,
       infinite: false,
       autoResize: true,
+      lerp: 0.1, // Smooth interpolation for fluid momentum
     })
 
     lenisRef.current = lenis
@@ -112,9 +112,9 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
 
           // Tell ScrollTrigger to use Lenis's scroll position
           ScrollTrigger.scrollerProxy(document.body, {
-            scrollTop(value) {
+            scrollTop(value?: number) {
               if (arguments.length) {
-                lenis.scrollTo(value, { immediate: true })
+                lenis.scrollTo(value as number, { immediate: true })
               }
               return lenis.scroll
             },

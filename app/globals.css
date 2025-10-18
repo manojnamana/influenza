@@ -183,12 +183,56 @@
     animation: blur-out 1s ease-out forwards;
   }
 
-  /* Enhanced video rendering optimization */
+  /* Enhanced video rendering optimization - Fantasy.co style */
   video {
     transform: translateZ(0);
     backface-visibility: hidden;
-    will-change: transform;
+    will-change: transform, opacity;
     -webkit-transform: translateZ(0);
     -webkit-backface-visibility: hidden;
+    /* Smoother video rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  /* Ensure scrolling is never blocked by pointer events */
+  .pointer-events-none {
+    pointer-events: none !important;
+  }
+
+  .pointer-events-auto {
+    pointer-events: auto !important;
+  }
+
+  /* Prevent scroll blocking on video elements */
+  video,
+  video * {
+    pointer-events: none !important;
+  }
+
+  /* Smooth transitions for all motion elements - Fantasy.co approach */
+  [data-scroll] {
+    will-change: transform, opacity;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Better text rendering during scroll */
+  body,
+  html {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: always;
   }
 }
