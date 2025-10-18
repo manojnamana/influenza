@@ -174,7 +174,7 @@ export default function HomePage() {
                       </span>
                     </h2>
                     <p className="text-2xl md:text-3xl text-white/70 leading-relaxed">
-                      Join thousands of brands already using Influenza to run successful campaigns
+                      Join thousands of brands already using Influenzi to run successful campaigns
                     </p>
                     <div className="flex flex-col sm:flex-row gap-8 justify-center pt-12">
                       <MagneticButton
@@ -218,7 +218,7 @@ export default function HomePage() {
                   >
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-[0_0_30px_rgba(168,85,247,0.5)]" />
-                      <span className="text-2xl font-bold">Influenza</span>
+                      <span className="text-2xl font-bold">Influenzi</span>
                     </div>
                     <p className="text-lg text-white/60">The complete platform for influencer marketing</p>
                   </motion.div>
@@ -260,7 +260,7 @@ export default function HomePage() {
                 ))}
               </div>
               <div className="mt-20 pt-10 border-t border-white/5 text-center text-lg text-white/50">
-                © 2025 Influenza. All rights reserved.
+                © 2025 Influenzi. All rights reserved.
               </div>
             </div>
           </footer>

@@ -108,7 +108,7 @@ export function CinematicNavbar() {
                     ease: "easeInOut",
                   }}
                 >
-                  Influenza
+                  Influenzi
                 </motion.span>
                 <motion.div
                   className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-accent/20 blur-xl opacity-0 group-hover:opacity-100"

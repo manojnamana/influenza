@@ -10,7 +10,7 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Influenza - Connect Brands with Influencers",
+  title: "Influenzi - Connect Brands with Influencers",
   description:
     "The complete platform for influencer marketing. Discover, analyze, and collaborate with top influencers.",
   generator: "v0.app",

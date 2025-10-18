@@ -78,7 +78,7 @@ export function FuturisticNavbar() {
               className="text-3xl font-bold bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent"
               whileHover={{ scale: 1.05 }}
             >
-              Influenza
+              Influenzi
             </motion.span>
           </Link>
 
