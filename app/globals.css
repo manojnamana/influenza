@@ -235,4 +235,65 @@
     -moz-osx-font-smoothing: grayscale;
     font-smooth: always;
   }
+
+  /* Advanced text reveal animations */
+  .word {
+    display: inline-block;
+    overflow: hidden;
+    padding-right: 0.25em;
+  }
+
+  .char {
+    display: inline-block;
+    transform-origin: bottom;
+  }
+
+  /* Smooth scale animation */
+  @keyframes smooth-scale {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-smooth-scale {
+    animation: smooth-scale 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Slide up animation */
+  @keyframes slide-up {
+    from {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Stagger delay utilities */
+  .stagger-1 {
+    animation-delay: 0.1s;
+  }
+
+  .stagger-2 {
+    animation-delay: 0.2s;
+  }
+
+  .stagger-3 {
+    animation-delay: 0.3s;
+  }
+
+  .stagger-4 {
+    animation-delay: 0.4s;
+  }
 }
