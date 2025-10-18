@@ -32,8 +32,17 @@ export function CinematicNavbar() {
       })
     }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    // Listen to both native scroll and Lenis scroll events
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    window.addEventListener("lenis-scroll", handleScroll, { passive: true })
+    
+    // Initial check
+    handleScroll()
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("lenis-scroll", handleScroll)
+    }
   }, [])
 
   const navItems = [

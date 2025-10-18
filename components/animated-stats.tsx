@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { motion } from "framer-motion"
-import { CursorAnimatedWrapper } from "@/components/cursor-animated-wrapper"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -59,24 +58,22 @@ export function AnimatedStats() {
       <div className="container mx-auto px-4 lg:px-8 py-24 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
           {stats.map((stat, i) => (
-            <CursorAnimatedWrapper
+            <motion.div
               key={i}
-              sectionId="stats"
-              animationType="scale"
-              delay={i * 0.1}
+              ref={(el) => {
+                statsRef.current[i] = el
+              }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="text-center space-y-3 group"
             >
-              <motion.div
-                ref={(el) => {
-                  statsRef.current[i] = el
-                }}
-                className="text-center space-y-3 group"
-              >
-                <div className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-br from-primary via-accent to-primary bg-clip-text text-transparent stat-value group-hover:scale-110 transition-transform">
-                  0{stat.suffix}
-                </div>
-                <div className="text-base md:text-lg text-muted-foreground font-medium">{stat.label}</div>
-              </motion.div>
-            </CursorAnimatedWrapper>
+              <div className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-br from-primary via-accent to-primary bg-clip-text text-transparent stat-value group-hover:scale-110 transition-transform">
+                0{stat.suffix}
+              </div>
+              <div className="text-base md:text-lg text-muted-foreground font-medium">{stat.label}</div>
+            </motion.div>
           ))}
         </div>
       </div>

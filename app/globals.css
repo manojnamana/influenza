@@ -99,15 +99,19 @@
 
   /* Optimized smooth scrolling configuration */
   html {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
     overflow-x: hidden;
-    overscroll-behavior: none;
   }
 
-  html.lenis,
+  html.lenis {
+    height: auto;
+    overflow-x: hidden;
+  }
+  
   html.lenis body {
     height: auto;
-    overscroll-behavior: none;
+    overflow: visible;
+    overflow-x: hidden;
   }
 
   .lenis.lenis-smooth {
@@ -124,6 +128,12 @@
 
   .lenis.lenis-scrolling iframe {
     pointer-events: none;
+  }
+  
+  /* Ensure proper scrolling container */
+  #__next,
+  [data-lenis-prevent] {
+    overscroll-behavior: contain;
   }
 
   /* Enhanced gradient animation for more dramatic effects */

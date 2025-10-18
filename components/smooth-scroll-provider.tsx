@@ -6,15 +6,18 @@ import Lenis from "lenis"
 
 export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
+  const rafIdRef = useRef<number | null>(null)
 
   useEffect(() => {
+    console.log('🚀 Initializing Lenis smooth scroll...')
+    
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1.2,
+      wheelMultiplier: 1,
       smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
@@ -23,13 +26,53 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
 
     lenisRef.current = lenis
 
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
+    // Expose Lenis globally for debugging
+    if (typeof window !== 'undefined') {
+      (window as any).lenis = lenis
+      console.log('✅ Lenis instance available at window.lenis')
     }
 
-    requestAnimationFrame(raf)
+    // Emit custom scroll events for other components
+    lenis.on('scroll', () => {
+      window.dispatchEvent(new CustomEvent('lenis-scroll', { detail: { scroll: lenis.scroll } }))
+    })
+    
+    console.log('✅ Lenis scroll listener attached')
 
+    // Handle anchor links
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const anchor = target.closest('a[href^="#"]')
+      
+      if (anchor && anchor.getAttribute('href')) {
+        const href = anchor.getAttribute('href')!
+        if (href === '#') return
+        
+        e.preventDefault()
+        const targetElement = document.querySelector(href)
+        
+        if (targetElement) {
+          console.log(`🎯 Smooth scrolling to: ${href}`)
+          lenis.scrollTo(targetElement as HTMLElement, {
+            offset: -100,
+            duration: 1.5,
+          })
+        } else {
+          console.warn(`⚠️ Target element not found: ${href}`)
+        }
+      }
+    }
+
+    document.addEventListener('click', handleAnchorClick)
+
+    function raf(time: number) {
+      lenis.raf(time)
+      rafIdRef.current = requestAnimationFrame(raf)
+    }
+
+    rafIdRef.current = requestAnimationFrame(raf)
+
+    // Load GSAP integration asynchronously
     const loadGSAP = async () => {
       if (typeof window === "undefined") return
 
@@ -67,21 +110,35 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
           // Update ScrollTrigger on Lenis scroll
           lenis.on("scroll", ScrollTrigger.update)
 
-          // Sync GSAP ticker with Lenis
-          gsap.ticker.add((time: number) => {
-            lenis.raf(time * 1000)
+          // Tell ScrollTrigger to use Lenis's scroll position
+          ScrollTrigger.scrollerProxy(document.body, {
+            scrollTop(value) {
+              if (arguments.length) {
+                lenis.scrollTo(value, { immediate: true })
+              }
+              return lenis.scroll
+            },
+            getBoundingClientRect() {
+              return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }
+            },
           })
 
           gsap.ticker.lagSmoothing(0)
+          console.log('✅ GSAP ScrollTrigger integrated with Lenis')
         }
       } catch (error) {
-        console.error("[v0] Error loading GSAP:", error)
+        console.error("[Lenis] Error loading GSAP:", error)
       }
     }
 
     loadGSAP()
 
     return () => {
+      console.log('🧹 Cleaning up Lenis...')
+      document.removeEventListener('click', handleAnchorClick)
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current)
+      }
       if (lenisRef.current) {
         lenisRef.current.destroy()
       }

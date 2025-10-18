@@ -4,7 +4,6 @@ import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Search, BarChart3, Users, Zap, Shield, Globe } from "lucide-react"
 import { GlassCard } from "@/components/glass-card"
-import { CursorAnimatedWrapper, CursorAnimatedText, CursorAnimatedCard } from "@/components/cursor-animated-wrapper"
 
 const features = [
   {
@@ -50,24 +49,37 @@ export function AnimatedFeatures() {
 
   return (
     <section className="container mx-auto px-4 lg:px-8 py-32 lg:py-40">
-      <CursorAnimatedText sectionId="features" delay={0}>
-        <div className="text-center space-y-6 mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance leading-tight">
-            Everything you need to run
-            <br />
-            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              successful campaigns
-            </span>
-          </h2>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Powerful tools and insights to help you find, analyze, and collaborate with the perfect influencers
-          </p>
-        </div>
-      </CursorAnimatedText>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center space-y-6 mb-20"
+      >
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance leading-tight">
+          Everything you need to run
+          <br />
+          <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            successful campaigns
+          </span>
+        </h2>
+        <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          Powerful tools and insights to help you find, analyze, and collaborate with the perfect influencers
+        </p>
+      </motion.div>
 
       <div ref={containerRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {features.map((feature, i) => (
-          <CursorAnimatedCard key={i} sectionId="features" delay={0.1 + (i * 0.1)}>
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{
+              duration: 0.5,
+              delay: i * 0.1,
+              ease: [0.21, 0.47, 0.32, 0.98],
+            }}
+          >
             <GlassCard className="p-8 h-full group">
               <div className="space-y-6">
                 <motion.div
@@ -82,7 +94,7 @@ export function AnimatedFeatures() {
                 <p className="text-muted-foreground leading-relaxed text-lg">{feature.description}</p>
               </div>
             </GlassCard>
-          </CursorAnimatedCard>
+          </motion.div>
         ))}
       </div>
     </section>

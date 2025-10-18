@@ -49,21 +49,26 @@ export function CursorVideoProvider({ children }: { children: React.ReactNode })
     // Add mouse move listener
     document.addEventListener('mousemove', handleMouseMove)
     
-    // Also check on scroll in case cursor moves without mouse movement
-    const handleScroll = () => {
-      // Trigger a mouse move event to recheck sections
-      document.dispatchEvent(new MouseEvent('mousemove', {
-        clientX: 0,
-        clientY: 0,
+    // Listen to Lenis scroll events instead of native scroll
+    const handleLenisScroll = () => {
+      // Get current mouse position from the last known position
+      const event = new MouseEvent('mousemove', {
+        clientX: window.innerWidth / 2,
+        clientY: window.innerHeight / 2,
         bubbles: true
-      }))
+      })
+      handleMouseMove(event)
     }
     
-    window.addEventListener('scroll', handleScroll)
+    // Listen for both native scroll (fallback) and Lenis scroll
+    window.addEventListener('scroll', handleLenisScroll, { passive: true })
+    // Also listen to custom lenis scroll event if available
+    window.addEventListener('lenis-scroll', handleLenisScroll as EventListener, { passive: true })
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('scroll', handleLenisScroll)
+      window.removeEventListener('lenis-scroll', handleLenisScroll as EventListener)
     }
   }, [])
 
